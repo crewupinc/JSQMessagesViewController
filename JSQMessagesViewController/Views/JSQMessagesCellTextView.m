@@ -26,7 +26,8 @@
     
     self.textColor = [UIColor whiteColor];
     self.editable = NO;
-    self.selectable = YES;
+    // HACK: Tap gestures don't over the text view get swallowed on iOS 11. This is a quick and dirty fix.
+    self.selectable = NO; // YES;
     self.userInteractionEnabled = YES;
     self.dataDetectorTypes = UIDataDetectorTypeNone;
     self.showsHorizontalScrollIndicator = NO;
@@ -78,6 +79,31 @@
     }
     
     return YES;
+}
+
+- (void)layoutSubviews
+{
+    [self detectCustomLinks];
+    [super layoutSubviews];
+}
+
+- (void)detectCustomLinks
+{
+    NSMutableArray<NSTextCheckingResult*>  *textCheckingResults = [NSMutableArray<NSTextCheckingResult*> array];
+
+    for (NSRegularExpression *exp in [self.messagesCellTextViewDelegate textViewCustomLinkRegularExpressions:self]) {
+        NSArray<NSTextCheckingResult*> *matches = [exp matchesInString:self.text options:NSMatchingWithoutAnchoringBounds range:NSMakeRange(0, self.text.length)];
+        [textCheckingResults addObjectsFromArray:matches];
+    }
+
+    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
+
+    [attributedText removeAttribute:NSLinkAttributeName range:NSMakeRange(0, attributedText.string.length)];
+    for (NSTextCheckingResult *match in textCheckingResults) {
+        [attributedText addAttribute: NSLinkAttributeName value:[attributedText attributedSubstringFromRange:match.range].string range:match.range];
+    }
+
+    self.attributedText = attributedText;
 }
 
 @end

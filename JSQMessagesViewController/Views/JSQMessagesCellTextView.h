@@ -18,10 +18,20 @@
 
 #import <UIKit/UIKit.h>
 
+@class JSQMessagesCellTextView;
+
+@protocol JSQMessagesCellTextViewDelegate<NSObject>
+
+-(NSArray<NSRegularExpression*>*)textViewCustomLinkRegularExpressions:(JSQMessagesCellTextView *)textView;
+
+@end
+
 /**
  *  `JSQMessagesCellTextView` is a subclass of `UITextView` that is used to display text
  *  in a `JSQMessagesCollectionViewCell`.
  */
 @interface JSQMessagesCellTextView : UITextView
+
+@property (weak) id<JSQMessagesCellTextViewDelegate> messagesCellTextViewDelegate;
 
 @end
