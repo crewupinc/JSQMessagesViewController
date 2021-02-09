@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
 	s.name = 'JSQMessagesViewController'
-	s.version = '7.3.5'
+	s.version = '8.0.0'
 	s.summary = 'An elegant messages UI library for iOS.'
 	s.license = 'MIT'
-	s.platform = :ios, '7.0'
+	s.platform = :ios, '12.0'
 
 	s.author = 'Jesse Squires'
 
-	s.source = { :git => 'https://github.com/jessesquires/JSQMessagesViewController.git', :tag => s.version }
+	s.source = { :git => 'https://github.com/crewupinc/JSQMessagesViewController.git', :tag => s.version }
 	s.source_files = 'JSQMessagesViewController/**/*.{h,m}'
 
 	s.resources = ['JSQMessagesViewController/Assets/JSQMessagesAssets.bundle', 'JSQMessagesViewController/**/*.{xib}']
@@ -16,6 +16,4 @@ Pod::Spec.new do |s|
 	s.requires_arc = true
 
 	s.dependency 'JSQSystemSoundPlayer', '~> 2.0.1'
-	
-	s.deprecated = true
 end
