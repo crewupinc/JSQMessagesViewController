@@ -43,7 +43,7 @@
     self.senderId = kJSQDemoAvatarIdSquires;
     self.senderDisplayName = kJSQDemoAvatarDisplayNameSquires;
     
-    self.inputToolbar.contentView.textView.pasteDelegate = self;
+    self.inputToolbar.contentView.textView.jsq_pasteDelegate = self;
     
     /**
      *  Load up our fake data for the demo
@@ -65,7 +65,7 @@
     self.showLoadEarlierMessagesHeader = YES;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage jsq_defaultTypingIndicatorImage]
-                                                                              style:UIBarButtonItemStyleBordered
+                                                                              style:UIBarButtonItemStylePlain
                                                                              target:self
                                                                              action:@selector(receiveMessagePressed:)];
 
@@ -264,11 +264,9 @@
         /**
          *  Upon receiving a message, you should:
          *
-         *  1. Play sound (optional)
-         *  2. Add new id<JSQMessageData> object to your data source
-         *  3. Call `finishReceivingMessage`
+         *  1. Add new id<JSQMessageData> object to your data source
+         *  2. Call `finishReceivingMessage`
          */
-        [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
         [self.demoData.messages addObject:newMessage];
         [self finishReceivingMessageAnimated:YES];
         
@@ -333,12 +331,10 @@
     /**
      *  Sending a message. Your implementation of this method should do *at least* the following:
      *
-     *  1. Play sound (optional)
-     *  2. Add new id<JSQMessageData> object to your data source
-     *  3. Call `finishSendingMessage`
+     *  1. Add new id<JSQMessageData> object to your data source
+     *  2. Call `finishSendingMessage`
      */
-    [JSQSystemSoundPlayer jsq_playMessageSentSound];
-    
+
     JSQMessage *message = [[JSQMessage alloc] initWithSenderId:senderId
                                              senderDisplayName:senderDisplayName
                                                           date:date
@@ -353,50 +349,48 @@
 {
     [self.inputToolbar.contentView.textView resignFirstResponder];
 
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Media messages"
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                         destructiveButtonTitle:nil
-                                              otherButtonTitles:@"Send photo", @"Send location", @"Send video", @"Send audio", nil];
-    
-    [sheet showFromToolbar:self.inputToolbar];
+//    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Media messages"
+//                                                       delegate:self
+//                                              cancelButtonTitle:@"Cancel"
+//                                         destructiveButtonTitle:nil
+//                                              otherButtonTitles:@"Send photo", @"Send location", @"Send video", @"Send audio", nil];
+//
+//    [sheet showFromToolbar:self.inputToolbar];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == actionSheet.cancelButtonIndex) {
-        [self.inputToolbar.contentView.textView becomeFirstResponder];
-        return;
-    }
-    
-    switch (buttonIndex) {
-        case 0:
-            [self.demoData addPhotoMediaMessage];
-            break;
-            
-        case 1:
-        {
-            __weak UICollectionView *weakView = self.collectionView;
-            
-            [self.demoData addLocationMediaMessageCompletion:^{
-                [weakView reloadData];
-            }];
-        }
-            break;
-            
-        case 2:
-            [self.demoData addVideoMediaMessage];
-            break;
-            
-        case 3:
-            [self.demoData addAudioMediaMessage];
-            break;
-    }
-    
-    [JSQSystemSoundPlayer jsq_playMessageSentSound];
-    
-    [self finishSendingMessageAnimated:YES];
-}
+//- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+//{
+//    if (buttonIndex == actionSheet.cancelButtonIndex) {
+//        [self.inputToolbar.contentView.textView becomeFirstResponder];
+//        return;
+//    }
+//
+//    switch (buttonIndex) {
+//        case 0:
+//            [self.demoData addPhotoMediaMessage];
+//            break;
+//
+//        case 1:
+//        {
+//            __weak UICollectionView *weakView = self.collectionView;
+//
+//            [self.demoData addLocationMediaMessageCompletion:^{
+//                [weakView reloadData];
+//            }];
+//        }
+//            break;
+//
+//        case 2:
+//            [self.demoData addVideoMediaMessage];
+//            break;
+//
+//        case 3:
+//            [self.demoData addAudioMediaMessage];
+//            break;
+//    }
+//
+//    [self finishSendingMessageAnimated:YES];
+//}
 
 
 
@@ -589,12 +583,12 @@
 {
     NSLog(@"Custom action received! Sender: %@", sender);
 
-    [[[UIAlertView alloc] initWithTitle:@"Custom Action"
-                               message:nil
-                              delegate:nil
-                     cancelButtonTitle:@"OK"
-                      otherButtonTitles:nil]
-     show];
+//    [[[UIAlertView alloc] initWithTitle:@"Custom Action"
+//                               message:nil
+//                              delegate:nil
+//                     cancelButtonTitle:@"OK"
+//                      otherButtonTitles:nil]
+//     show];
 }
 
 
